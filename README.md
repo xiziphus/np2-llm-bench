@@ -20,8 +20,19 @@ On-device LLM inference measured on a **Nothing Phone (2)** (Snapdragon **8+ Gen
 |---|---|---:|---:|---:|---:|
 | Qwen3.5-2B | Q4_0 | 55.8 ± 1.0 | **99.8 ± 1.9** | 2.68 ± 0.08 | **15.0 ± 0.7** |
 | Qwen3.5-2B | Q4_K_M | 44.1 ± 0.1 | **56.4 ± 4.2** | 2.65 ± 0.15 | **11.6 ± 1.0** |
-| Qwen3.5-9B | Q4_0 | 23.6 ± 0.0 | *(running)* | 1.57 ± 0.13 | *(running)* |
-| Llama-3.1-8B | Q4_K_M | *(queued)* | *(queued)* | *(queued)* | *(queued)* |
+| Qwen3.5-9B | Q4_0 | **23.6 ± 0.0** | 18.4 ± 0.1 | 1.57 ± 0.13 | **3.49 ± 0.14** |
+| Llama-3.1-8B | Q4_K_M | 10.2 ± 0.0 | **14.9 ± 0.1** | 1.99 ± 0.00 | **4.11 ± 0.09** |
+
+**The GPU's single win** (bold left column, row 3): big-model prompt prefill *in the Adreno-optimized Q4_0 format* — 9B prefill 28% faster than CPU. With a non-optimized quant (8B Q4_K_M) it loses even that. CPU wins decode everywhere, 2.1–5.6×.
+
+### Vision: SmolVLM2-500M Q8_0, 1024px screenshot (`llama-mtmd-cli`)
+
+| Engine | Image encode (per chunk) | Result quality |
+|---|---:|---|
+| **CPU** (`--no-mmproj-offload -t 4`) | **1.83 s** | Correct: read clock, date |
+| GPU (`-ngl 99`, encoder on GPU) | 7.54 s | Correct: read clock, date, "84% — Charging rapidly" |
+
+**CPU encodes vision 4.1× faster than the Adreno 730.** SmolVLM2 ran clean on both engines — the earlier kernel panic was specific to Qwen3-VL's mmproj allocation bug, not vision per se.
 
 Earlier CPU-only round (same phone, same llama.cpp flags):
 
@@ -78,9 +89,11 @@ Raw logs in [`results/`](results/).
 
 - [x] CPU baseline (2 models × 3 thread counts)
 - [x] GPU vs CPU: Qwen3.5-2B (Q4_0 + Q4_K_M)
-- [ ] GPU vs CPU: Qwen3.5-9B Q4_0 *(running)*
-- [ ] GPU vs CPU: Llama-3.1-8B Q4_K_M
-- [ ] Vision: SmolVLM2-500M (Qwen3-VL parked — encoder allocation bug, see finding 3)
-- [ ] NPU: ExecuTorch QNN, Qwen3-0.6B on Hexagon v69
+- [x] GPU vs CPU: Qwen3.5-9B Q4_0
+- [x] GPU vs CPU: Llama-3.1-8B Q4_K_M
+- [x] Vision: SmolVLM2-500M, CPU + GPU (Qwen3-VL parked — encoder allocation bug, see finding 3)
+- [ ] NPU: ExecuTorch QNN, Qwen3-0.6B on Hexagon v69 *(artifacts staging)*
 
-*Tables update as rounds complete.*
+### Verdict
+
+For LLMs on the Snapdragon 8+ Gen 1, **run everything on the CPU with `dotprod+i8mm+fp16` and Q4_0 weights.** The GPU earns exactly one narrow lane (Q4_0 big-model prefill, +28% at 9B) that rarely justifies its 2–5× decode penalty; a hybrid "GPU prefill → CPU decode" split is theoretically optimal but llama.cpp doesn't support it per-phase. Vision belongs on the CPU too. The NPU — if the v69 ExecuTorch path verifies — is the efficiency lane for sub-1B models, not a general accelerator.

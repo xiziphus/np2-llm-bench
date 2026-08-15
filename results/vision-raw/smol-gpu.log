@@ -1,0 +1,52 @@
+0.02.326.006 W resolve_fused_ops: layer 0 is assigned to device GPUOpenCL but Flash Attention is assigned to device CPU (usually due to missing support)
+0.02.326.046 W resolve_fused_ops: Flash Attention not supported, set to disabled
+0.02.390.177 I cmn          init: llama threadpool init, n_threads = 8
+0.02.813.089 W load_tensors: ffn up/down are swapped
+0.03.558.661 W warmup: *****************************************************************
+0.03.558.694 W warmup: WARNING: flash attention not supported by OpenCL, memory usage will increase
+0.03.558.696 W warmup: op params: 
+0.03.558.700 W warmup:    dst: type = f32, ne = [64 12 1024 1], nb = [4 256 3072 3145728]
+0.03.558.703 W warmup:   src0: type = f32, ne = [64 1024 12 1], nb = [4 3072 256 3145728]
+0.03.558.706 W warmup:   src1: type = f16, ne = [64 1024 12 1], nb = [2 128 131072 1572864]
+0.03.558.708 W warmup:   src2: type = f16, ne = [64 1024 12 1], nb = [2 128 131072 1572864]
+0.03.558.711 W warmup: please report this on github as an issue
+0.03.558.712 W warmup: *****************************************************************
+0.03.574.229 W warmup: *****************************************************************
+0.03.574.249 W warmup: WARNING: the CLIP graph uses unsupported operators by the backend
+0.03.574.250 W warmup:          the performance will be suboptimal                      
+0.03.574.253 W warmup:          list of unsupported ops (backend=OpenCL):
+0.03.574.255 W warmup:         SOFT_MAX: type = f32, ne = [1024 1024 12 1]
+0.03.574.257 W warmup:             CONT: type = f32, ne = [1024 64 12 1]
+0.03.574.259 W warmup:          PERMUTE: type = f32, ne = [64 1024 12 1]
+0.03.574.260 W warmup:          RESHAPE: type = f32, ne = [64 12 1024 1]
+0.03.574.261 W warmup:          RESHAPE: type = f32, ne = [64 12 1024 1]
+0.03.574.263 W warmup:          MUL_MAT: type = f32, ne = [768 1024 1 1]
+0.03.574.264 W warmup:          MUL_MAT: type = f32, ne = [768 1024 1 1]
+0.03.574.265 W warmup:          MUL_MAT: type = f32, ne = [768 1024 1 1]
+0.03.574.266 W warmup:              MUL: type = f32, ne = [768 1024 1 1]
+0.03.574.267 W warmup:              ADD: type = f32, ne = [768 1024 1 1]
+0.03.574.268 W warmup:          MUL_MAT: type = f32, ne = [768 1024 1 1]
+0.03.574.269 W warmup:              ADD: type = f32, ne = [3072 1024 1 1]
+0.03.574.270 W warmup: flash attention is disabled
+0.03.574.271 W warmup: please report this on github as an issue
+0.03.574.272 W warmup: ref: https://github.com/ggml-org/llama.cpp/pull/16837#issuecomment-3461676118
+0.03.574.273 W warmup: *****************************************************************
+0.03.581.117 I mtmd_cli_context: chat template example:
+<|im_start|>You are a helpful assistant
+
+User: Hello<end_of_utterance>
+Assistant: Hi there<end_of_utterance>
+User: How are you?<end_of_utterance>
+Assistant:
+0.03.581.132 I main: loading model: smolvlm2-500m-q80.gguf
+0.03.581.221 W WARN: This is an experimental CLI for testing multimodal capability.
+0.03.581.222 W       For normal use cases, please use the standard llama-cli
+0.03.717.279 I encoding mtmd batch, n_chunks = 1 (done = 1, total = 7)
+0.11.294.852 I mtmd batch encoding done in 7577 ms
+0.12.087.107 I encoding mtmd batch, n_chunks = 1 (done = 3, total = 7)
+0.19.625.726 I mtmd batch encoding done in 7539 ms
+0.20.419.591 I encoding mtmd batch, n_chunks = 1 (done = 5, total = 7)
+0.27.959.088 I mtmd batch encoding done in 7539 ms
+
+ The phone screen displays a black background with white text. The text reads "Sat, 15 Aug" at the top, "9:26" in the middle, and "84% - Charging rapidly" at the bottom. The time is 9:26, and
+

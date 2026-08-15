@@ -24,3 +24,11 @@ Segmentation fault
 21:33:41 --- cpu-full ---
 21:34:29   answer:  
 21:34:29 ### VISION v2 DONE ###
+22:13:17 
+22:13:17 ### VISION v3: SmolVLM2-500M (panic-safe order) ###
+22:13:30 smolvlm2 pushed
+22:13:30 --- smol-cpu ---
+22:13:38   answer: Assistant: Hi there<end_of_utterance> User: How are you?<end_of_utterance> Assistant:  The phone screen displays the time "9:26" and the date "Sat, 15 Aug". The time is in a large, white font, and the date is in a smaller, white font below it. The background i
+22:14:18 --- smol-gpu ---
+22:14:50   answer: Assistant: Hi there<end_of_utterance> User: How are you?<end_of_utterance> Assistant:  The phone screen displays a black background with white text. The text reads "Sat, 15 Aug" at the top, "9:26" in the middle, and "84% - Charging rapidly" at the bottom. The 
+22:14:50 ### VISION v3 DONE ###

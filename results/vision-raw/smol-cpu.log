@@ -1,0 +1,21 @@
+0.00.696.398 I cmn          init: llama threadpool init, n_threads = 4
+0.00.734.199 W load_tensors: ffn up/down are swapped
+0.00.816.976 I mtmd_cli_context: chat template example:
+<|im_start|>You are a helpful assistant
+
+User: Hello<end_of_utterance>
+Assistant: Hi there<end_of_utterance>
+User: How are you?<end_of_utterance>
+Assistant:
+0.00.816.987 I main: loading model: smolvlm2-500m-q80.gguf
+0.00.817.067 W WARN: This is an experimental CLI for testing multimodal capability.
+0.00.817.068 W       For normal use cases, please use the standard llama-cli
+0.00.932.582 I encoding mtmd batch, n_chunks = 1 (done = 1, total = 7)
+0.02.758.441 I mtmd batch encoding done in 1826 ms
+0.02.914.410 I encoding mtmd batch, n_chunks = 1 (done = 3, total = 7)
+0.04.750.332 I mtmd batch encoding done in 1836 ms
+0.04.925.931 I encoding mtmd batch, n_chunks = 1 (done = 5, total = 7)
+0.06.757.275 I mtmd batch encoding done in 1831 ms
+
+ The phone screen displays the time "9:26" and the date "Sat, 15 Aug". The time is in a large, white font, and the date is in a smaller, white font below it. The background is black, and there is a small white text that reads
+
