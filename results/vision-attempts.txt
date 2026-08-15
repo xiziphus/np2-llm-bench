@@ -1,0 +1,26 @@
+21:26:53 ### NP2 VISION BENCH: Qwen3-VL-2B on live screenshot ###
+21:26:54 screenshot captured: 69281 bytes
+21:26:54 
+21:26:54 --- GPU (ngl=99, encoder on GPU) ---
+How are you?<|im_end|>
+<|im_start|>assistant
+0.12.263.827 I main: loading model: qwen3vl-2b-q4km.gguf
+0.12.264.036 W WARN: This is an experimental CLI for testing multimodal capability.
+0.12.264.052 W       For normal use cases, please use the standard llama-cli
+0.12.419.180 I encoding mtmd batch, n_chunks = 1 (done = 1, total = 3)
+0.13.397.359 E ggml_gallocr_reserve_n_impl: failed to allocate OpenCL buffer of size 13641072000
+Segmentation fault 
+21:27:53 
+21:27:53 --- CPU (ngl=0, encoder on CPU) ---
+0.00.646.277 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+21:28:44 
+21:28:44 ### VISION BENCH DONE ###
+21:31:17 
+21:31:17 ### VISION BENCH v2 (raw capture) ###
+21:31:17 --- gpu-small ---
+21:31:32   answer: Segmentation fault  
+21:32:12 --- cpu-small ---
+21:33:01   answer:  
+21:33:41 --- cpu-full ---
+21:34:29   answer:  
+21:34:29 ### VISION v2 DONE ###

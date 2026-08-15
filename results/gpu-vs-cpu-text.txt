@@ -1,0 +1,31 @@
+20:55:43 ### NP2 GPU-vs-CPU BENCH (OpenCL Adreno 730) ###
+20:55:45 
+20:55:45 ########## Qwen3.5-2B Q4_0 (Adreno-optimal) ##########
+20:55:56   battery=70% thermal=1
+20:55:56 --- GPU (ngl=99) ---
+| qwen35 2B Q4_0                 |   1.20 GiB |     1.94 B | OpenCL     |  99 |           pp512 |         55.81 ± 0.99 |
+| qwen35 2B Q4_0                 |   1.20 GiB |     1.94 B | OpenCL     |  99 |           tg128 |          2.68 ± 0.08 |
+20:59:17   GPU: pp=55.81 ± 0.99 tg=2.68 ± 0.08
+21:00:03 --- CPU (ngl=0, t=4) ---
+| qwen35 2B Q4_0                 |   1.20 GiB |     1.94 B | OpenCL     |   0 |       4 |           pp512 |         99.84 ± 1.86 |
+| qwen35 2B Q4_0                 |   1.20 GiB |     1.94 B | OpenCL     |   0 |       4 |           tg128 |         15.04 ± 0.72 |
+21:00:53   CPU: pp=99.84 ± 1.86 tg=15.04 ± 0.72
+21:01:41 
+21:01:41 ########## Qwen3.5-2B Q4_K_M ##########
+21:01:52   battery=72% thermal=1
+21:01:52 --- GPU (ngl=99) ---
+| qwen35 2B Q4_K - Medium        |   1.29 GiB |     1.94 B | OpenCL     |  99 |           pp512 |         44.12 ± 0.06 |
+| qwen35 2B Q4_K - Medium        |   1.29 GiB |     1.94 B | OpenCL     |  99 |           tg128 |          2.65 ± 0.15 |
+21:05:13   GPU: pp=44.12 ± 0.06 tg=2.65 ± 0.15
+21:05:59 --- CPU (ngl=0, t=4) ---
+| qwen35 2B Q4_K - Medium        |   1.29 GiB |     1.94 B | OpenCL     |   0 |       4 |           pp512 |         56.42 ± 4.20 |
+| qwen35 2B Q4_K - Medium        |   1.29 GiB |     1.94 B | OpenCL     |   0 |       4 |           tg128 |         11.60 ± 1.04 |
+21:07:12   CPU: pp=56.42 ± 4.20 tg=11.60 ± 1.04
+21:07:59 
+21:07:59 ########## Qwen3.5-9B Q4_0 ##########
+21:44:02   battery=90% thermal=0
+21:44:02 --- GPU (ngl=99) ---
+| qwen35 9B Q4_0                 |   5.34 GiB |     9.20 B | OpenCL     |  99 |           pp512 |         23.55 ± 0.00 |
+| qwen35 9B Q4_0                 |   5.34 GiB |     9.20 B | OpenCL     |  99 |           tg128 |          1.57 ± 0.13 |
+21:50:05   GPU: pp=23.55 ± 0.00 tg=1.57 ± 0.13
+21:50:50 --- CPU (ngl=0, t=4) ---

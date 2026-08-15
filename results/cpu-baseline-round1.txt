@@ -1,0 +1,43 @@
+14:20:19 waiting for llama.cpp build binaries...
+14:35:50 build ready: 127707512 bytes
+14:35:52 binary check: usage: /data/local/tmp/llama-bench [options]
+14:35:52 waiting for model downloads to finish...
+-rw-rw-rw- 1 shell shell 6596011424 2026-08-15 14:28 /data/local/tmp/llama3.1-8b-q6k.gguf
+-rw-rw-rw- 1 shell shell  986048768 2026-08-15 14:30 /data/local/tmp/qwen1.5b-q4km.gguf
+-rw-rw-rw- 1 shell shell  106266624 2026-08-15 14:16 /data/local/tmp/qwen3b-q4km.gguf
+14:35:54 
+14:35:54 ########## Qwen2.5-1.5B Q4_K_M ##########
+14:35:54 ---- threads=4 ----
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       4 |           pp512 |         23.31 ± 0.57 |
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       4 |           tg128 |         13.94 ± 0.37 |
+14:37:48 ---- threads=6 ----
+14:40:27 
+14:40:27 =================== OPTIMIZED BUILD (dotprod+i8mm+fp16) ===================
+15:01:15 optimized llama-bench built: 127495752 bytes
+15:01:19 sysinfo: version: 0.1.0-dev (build 1, commit 0177dcc) built with Clang 18.0.2 for Android aarch64 
+15:01:20 
+15:01:20 ########## Qwen2.5-1.5B Q4_K_M (OPTIMIZED) ##########
+15:01:20 ---- threads=4 ----
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       4 |           pp512 |         94.87 ± 3.43 |
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       4 |           tg128 |         21.22 ± 1.13 |
+15:02:01 ---- threads=6 ----
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       6 |           pp512 |         69.39 ± 4.51 |
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       6 |           tg128 |         20.12 ± 0.44 |
+15:02:51 ---- threads=8 ----
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       8 |           pp512 |         74.15 ± 0.15 |
+| qwen2 1.5B Q4_K - Medium       | 934.69 MiB |     1.54 B | CPU        |       8 |           tg128 |         17.93 ± 0.52 |
+15:03:42 
+15:03:42 ########## Llama-3.1-8B Q6_K (OPTIMIZED) ##########
+15:03:42 ---- threads=4 ----
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       4 |           pp512 |         10.71 ± 0.10 |
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       4 |           tg128 |          2.37 ± 0.06 |
+15:09:55 ---- threads=6 ----
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       6 |           pp512 |          9.27 ± 0.46 |
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       6 |           tg128 |          1.85 ± 0.07 |
+15:17:20 ---- threads=8 ----
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       8 |           pp512 |          8.68 ± 0.97 |
+| llama 8B Q6_K                  |   6.14 GiB |     8.03 B | CPU        |       8 |           tg128 |          2.25 ± 0.08 |
+15:24:42 
+15:24:42 ########## real generation: Llama-3.1-8B Q6_K, 6 threads ##########
+15:25:23 ### OPTIMIZED BENCH COMPLETE ###
