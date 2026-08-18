@@ -48,7 +48,7 @@ More threads than 4 is **slower** (big.LITTLE: the 4 big cores win; adding LITTL
 1. **CPU beats GPU on everything at 2B** — decode by 5.6×, prefill by 1.8×. The Adreno 730's OpenCL decode suffers per-token synchronization overhead that no kernel tuning fixes on this driver generation. (llama.cpp's own verified-device table starts at Adreno 750; A730 runs, but this is why it isn't listed.)
 2. **Q4_0 is the right quant for BOTH engines on ARM.** CPU prefill jumps 77% over Q4_K_M (99.8 vs 56.4) because llama.cpp runtime-repacks Q4_0 into ARM-interleaved layout. It's also the format Qualcomm's Adreno kernels are optimized for. Use Q4_0 on phones.
 3. **Vision on GPU is broken, and on CPU it's dangerous** *(as of llama.cpp b~6150 / commit adb55e5)*: Qwen3-VL-2B's mmproj encoder computed a **13.6 GB** allocation for a 1080×2412 screenshot — segfault on OpenCL, and on CPU the attempt **OOM'd the device into a kernel panic and rebooted the phone** (`sys.boot.reason=kernel_panic,...oom`). Cap image resolution before the encoder, always. (Vision re-test with SmolVLM2-500M pending.)
-4. **The Hexagon v69 NPU is orphaned by the ecosystem.** llama.cpp's ggml-hexagon backend (merged Oct 2025) ships kernels for v73/v75/v79/v81 only. Qualcomm Genie requires v73+. The one working path for LLM-on-NPU on 8/8+ Gen 1 is **ExecuTorch's QNN backend** (officially supports SM8475); community-reported ~31 tok/s decode for Qwen3-0.6B on v69. Our verification run is in progress.
+4. **The Hexagon v69 NPU is orphaned by the ecosystem.** llama.cpp's ggml-hexagon backend (merged Oct 2025) ships kernels for v73/v75/v79/v81 only. Qualcomm Genie requires v73+. The one working path for LLM-on-NPU on 8/8+ Gen 1 is **ExecuTorch's QNN backend** (officially supports SM8475); community-reported ~31 tok/s decode for Qwen3-0.6B on v69. **We did not verify this** — see Status. Treat the 31 tok/s figure as someone else's claim, not a result of ours.
 5. **Screen-off WiFi power-save throttles adb to ~100 KB/s** (from 2–6 MB/s screen-on, 39 MB/s USB). If you benchmark over wireless adb, keep the screen awake or use USB.
 
 ## Method
@@ -92,8 +92,35 @@ Raw logs in [`results/`](results/).
 - [x] GPU vs CPU: Qwen3.5-9B Q4_0
 - [x] GPU vs CPU: Llama-3.1-8B Q4_K_M
 - [x] Vision: SmolVLM2-500M, CPU + GPU (Qwen3-VL parked — encoder allocation bug, see finding 3)
-- [ ] NPU: ExecuTorch QNN, Qwen3-0.6B on Hexagon v69 *(artifacts staging)*
+- [ ] NPU: ExecuTorch QNN, Qwen3-0.6B on Hexagon v69 — **not run.** Artifacts were staged (`.pte` + QNN libs, run commands fixed) but the transfer was cut short, and the phone was then restored to stock Nothing OS and relocked, ending device access. Nothing here is an NPU measurement.
 
 ### Verdict
 
 For LLMs on the Snapdragon 8+ Gen 1, **run everything on the CPU with `dotprod+i8mm+fp16` and Q4_0 weights.** The GPU earns exactly one narrow lane (Q4_0 big-model prefill, +28% at 9B) that rarely justifies its 2–5× decode penalty; a hybrid "GPU prefill → CPU decode" split is theoretically optimal but llama.cpp doesn't support it per-phase. Vision belongs on the CPU too. The NPU — if the v69 ExecuTorch path verifies — is the efficiency lane for sub-1B models, not a general accelerator.
+## Continuing this work
+
+**Device access first.** The phone was restored to stock Nothing OS (PongIND
+B4.1) and the bootloader **relocked** after these runs, so re-testing means
+unlocking again — which wipes userdata. Everything in this repo was measured on
+a stock, unrooted device, and the CPU/GPU numbers do not need root to reproduce.
+
+**The NPU lane, concretely.** Hexagon **v69** on SM8475 is the constraint:
+llama.cpp's `ggml-hexagon` ships kernels for v73/v75/v79/v81, and Qualcomm Genie
+wants v73+, so neither runs here. The only viable path is **ExecuTorch's QNN
+backend**, which officially lists SM8475. To finish it you need, on-device:
+the exported `.pte`, the QNN runtime libs (`libQnnHtp*.so` and the v69 skel),
+and `LD_LIBRARY_PATH` plus `ADSP_LIBRARY_PATH` pointed at them. Export the model
+with the QNN partitioner on a Linux host — the arm64 runner and the exporter are
+separate steps, and the export is the slow one.
+
+**Method note that cost us a phone reboot.** Cap image resolution *before* the
+vision encoder. Qwen3-VL-2B's mmproj computed a 13.6 GB allocation for a
+1080×2412 screenshot and OOM'd the device into a kernel panic (finding 3). Any
+future vision run should assert the computed allocation is sane before calling
+the encoder, not after.
+
+**Trust functional checks over declared support.** The pattern that held
+throughout: a backend's own compatibility table (llama.cpp's verified-device
+list starting at Adreno 750) predicted the result better than "it runs".
+Measure the thing; don't infer it from the fact that it launched.
+
